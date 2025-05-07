@@ -4,4 +4,5 @@ using System;
 public class PlayerRequest
 {
     public string playerName;
+    public int playerScore;
 }
