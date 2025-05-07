@@ -1,5 +1,7 @@
+using System;
+
 [System.Serializable]
 public class PlayerRequest
 {
-    public string PlayerName {  get; set; }
+    public string PlayerName;
 }

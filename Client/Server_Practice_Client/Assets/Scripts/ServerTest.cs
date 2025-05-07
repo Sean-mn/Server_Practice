@@ -7,14 +7,19 @@ public class ServerTest : MonoBehaviour
 {
     private readonly string _serverUrl = "http://localhost:5015/api/hello";
 
-    private void Start()
+    private void Update()
     {
-        StartCoroutine(SendPlayerName("Sean"));
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            StartCoroutine(SendPlayerName("Sean"));
+        }
     }
 
     private IEnumerator SendPlayerName(string playerName)
     {
         var json = JsonUtility.ToJson(new PlayerRequest { PlayerName = playerName });
+        Debug.Log($"보낼 JSON: {json}");
+
         var req = new UnityWebRequest(_serverUrl, "POST");
         byte[] body = Encoding.UTF8.GetBytes(json);
 
