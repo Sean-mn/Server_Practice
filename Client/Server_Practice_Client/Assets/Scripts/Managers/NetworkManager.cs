@@ -36,13 +36,37 @@ namespace Managers.Network
 
                 if (req.result == UnityWebRequest.Result.Success)
                 {
-                    var response = JsonUtility.FromJson<ServerResponse>(req.downloadHandler.text);
                     onSuccess?.Invoke(req.downloadHandler.text);
                 }
                 else
                 {
                     onFailed?.Invoke(req.error);
                 }
+            }
+        }
+
+        public IEnumerator GetJson<T>(Action<T> onSuccess, Action<string> onFailed)
+        {
+            var req = new UnityWebRequest(_serverUrl, "GET");
+            req.downloadHandler = new DownloadHandlerBuffer();
+
+            yield return req.SendWebRequest();
+
+            if (req.result == UnityWebRequest.Result.Success)
+            {
+                try
+                {
+                    T response = JsonUtility.FromJson<T>(req.downloadHandler.text);
+                    onSuccess?.Invoke(response);
+                }
+                catch (Exception ex)
+                {
+                    onFailed?.Invoke($"오류 발생: {ex.Message}");
+                }
+            }
+            else
+            {
+                onFailed?.Invoke(req.error);
             }
         }
     }

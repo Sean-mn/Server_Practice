@@ -2,4 +2,5 @@
 public class ServerResponse
 {
     public string message;
+    public int totalScore;
 }
