@@ -1,5 +1,5 @@
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Server.Models;
 
 namespace Server.Controllers
 {
@@ -7,5 +7,10 @@ namespace Server.Controllers
     [ApiController]
     public class HelloController : ControllerBase
     {
+        [HttpPost]
+        public IActionResult Post([FromBody]PlayerRequest req)
+        {
+            return Ok(new { message = $"환영합니다 {req.PlayerName}님" });
+        }
     }
 }
