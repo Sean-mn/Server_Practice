@@ -17,7 +17,7 @@ public class ServerTest : MonoBehaviour
 
     private IEnumerator SendPlayerName(string playerName)
     {
-        var json = JsonUtility.ToJson(new PlayerRequest { PlayerName = playerName });
+        var json = JsonUtility.ToJson(new PlayerRequest { playerName = playerName });
         Debug.Log($"보낼 JSON: {json}");
 
         var req = new UnityWebRequest(_serverUrl, "POST");
@@ -31,7 +31,8 @@ public class ServerTest : MonoBehaviour
 
         if (req.result == UnityWebRequest.Result.Success)
         {
-            Debug.Log($"서버응답: {req.downloadHandler.text}");
+            var response = JsonUtility.FromJson<ServerResponse>(req.downloadHandler.text);
+            Debug.Log($"서버응답: {response.message}");
         }
         else
         {
