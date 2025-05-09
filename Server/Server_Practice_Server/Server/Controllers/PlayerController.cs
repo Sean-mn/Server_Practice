@@ -5,11 +5,11 @@ namespace Server.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class HelloController : ControllerBase
+    public class PlayerController : ControllerBase
     {
-        private readonly ILogger<HelloController> _logger;
+        private readonly ILogger<PlayerController> _logger;
         
-        public HelloController(ILogger<HelloController> logger)
+        public PlayerController(ILogger<PlayerController> logger)
         {
             _logger = logger;
         }

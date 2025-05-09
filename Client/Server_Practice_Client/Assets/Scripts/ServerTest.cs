@@ -23,7 +23,7 @@ public class ServerTest : MonoBehaviour
 
     private IEnumerator SendPlayerName(PlayerRequest request)
     {
-        NetworkManager manager = new NetworkManager("hello");
+        NetworkManager manager = new NetworkManager("player");
 
         yield return manager.PostJson(
             request,
@@ -35,7 +35,7 @@ public class ServerTest : MonoBehaviour
             {
                 if (error.Contains("409"))
                 {
-                    Debug.LogError($"이미 등록된 ID입니다: {error}");
+                    Debug.LogWarning($"이미 등록된 ID입니다: {error}");
                 }
                 else
                 {
