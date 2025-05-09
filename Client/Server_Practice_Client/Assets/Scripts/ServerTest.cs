@@ -23,7 +23,7 @@ public class ServerTest : MonoBehaviour
 
     private IEnumerator SendPlayerName(PlayerRequest request)
     {
-        NetworkManager manager = new NetworkManager("player");
+        NetworkManager manager = new NetworkManager("player/register");
 
         yield return manager.PostJson(
             request,

@@ -8,7 +8,7 @@ namespace Server.Controllers
     [ApiController]
     public class PlayerController(ILogger<PlayerController> logger) : ControllerBase
     {
-        [HttpPost]
+        [HttpPost("{register}")]
         public IActionResult RegisterPlayer([FromBody] PlayerRequest req)
         {
             if (req.PlayerId <= 0 || string.IsNullOrEmpty(req.PlayerName))

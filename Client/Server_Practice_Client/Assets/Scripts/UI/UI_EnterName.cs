@@ -15,11 +15,11 @@ public class UI_EnterName : MonoBehaviour
 
     public void EnterName()
     {
-        NetworkManager manager = new NetworkManager("hello");
+        NetworkManager manager = new NetworkManager("player/register");
         string currentPlayerName = _nameInput.text;
 
         StartCoroutine(manager.PostJson(
-            new PlayerRequest { playerName = currentPlayerName },
+            new PlayerRequest { playerId = 2, playerName = currentPlayerName },
             onSuccess: (response) =>
             {
                 Debug.Log($"서버 응답: {response}");
