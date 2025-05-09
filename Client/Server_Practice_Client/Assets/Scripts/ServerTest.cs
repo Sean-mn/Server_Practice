@@ -6,16 +6,13 @@ public class ServerTest : MonoBehaviour
 {
     private PlayerRequest _request;
 
-    private void Start()
-    {
-        _request = new PlayerRequest();
-    }
-
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            StartCoroutine(SendPlayerName("Sean"));
+            _request = new(1, "Sean");
+
+            StartCoroutine(SendPlayerName(_request));
         }
         else if (Input.GetKeyDown(KeyCode.R))
         {
@@ -24,19 +21,26 @@ public class ServerTest : MonoBehaviour
         }
     }
 
-    private IEnumerator SendPlayerName(string currentPlayerName)
+    private IEnumerator SendPlayerName(PlayerRequest request)
     {
         NetworkManager manager = new NetworkManager("hello");
 
         yield return manager.PostJson(
-            new PlayerRequest { playerName = currentPlayerName },
+            request,
             onSuccess: (response) =>
             {
                 Debug.Log($"서버 응답: {response}");
             },
             onFailed: (error) =>
             {
-                Debug.LogError($"요청 실패: {error}");
+                if (error.Contains("409"))
+                {
+                    Debug.LogError($"이미 등록된 ID입니다: {error}");
+                }
+                else
+                {
+                    Debug.LogError($"요청 실패: {error}");
+                }
             }
         );
     }
@@ -46,15 +50,15 @@ public class ServerTest : MonoBehaviour
         NetworkManager manager = new NetworkManager("score");
 
         yield return manager.PostJson(
-            new PlayerRequest { playerScore = currentPlayeScore },
+            _request,
             onSuccess: (response) =>
             {
                 Debug.Log($"서버 응답: {response}");
             },
             onFailed: (error) =>
             {
-                Debug.LogError($"요청 실패: {error}");
+                Debug.LogWarning($"요청 실패: {error}");
             }
-            );
+        );
     }
 }

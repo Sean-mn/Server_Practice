@@ -11,10 +11,10 @@ namespace Managers.Network
         private string _serverUrl = "http://localhost:5015/api/";
         private bool _isInitalized = false;
 
-        public NetworkManager() { }
-        public NetworkManager(string api)
+        public NetworkManager(string api = "")
         {
-            _serverUrl += api;
+            if (!string.IsNullOrEmpty(api))
+                _serverUrl += api;
             _isInitalized = true;
         }
 
@@ -40,7 +40,7 @@ namespace Managers.Network
                 }
                 else
                 {
-                    onFailed?.Invoke(req.error);
+                    onFailed?.Invoke($"Request Failed. Status Code: {req.responseCode}, Error: {req.error}");
                 }
             }
         }
@@ -66,7 +66,7 @@ namespace Managers.Network
             }
             else
             {
-                onFailed?.Invoke(req.error);
+                onFailed?.Invoke($"Request Failed. Status Code: {req.responseCode}, Error: {req.error}");
             }
         }
     }
