@@ -11,12 +11,14 @@ namespace Server.Controllers
         [HttpPost("{register}")]
         public IActionResult RegisterPlayer([FromBody] PlayerRequest req)
         {
+            // 잘못된 요청 확인
             if (req.PlayerId <= 0 || string.IsNullOrEmpty(req.PlayerName))
             {
                 logger.LogWarning("잘못된 요청: 유효하지 않은 PlayerId({PlayerId}) 또는 PlayerName({PlayerName})", req.PlayerId, req.PlayerName);
                 return BadRequest(new { message = "유효한 플레이어의 Id와 이름이 아닙니다." });
             }
 
+            // 플레이어 중복 확인
             var added = PlayerData.RegisteredPlayers.TryAdd(req.PlayerId, req.PlayerName);
             if (!added)
             {
@@ -26,6 +28,7 @@ namespace Server.Controllers
 
             PlayerData.PlayerScores[req.PlayerId] = 0;
 
+            // 플레이어 등록
             logger.LogInformation("신규 플레이어 등록, Id: {PlayerId}, 이름: {PlayerName}", req.PlayerId, req.PlayerName);
 
             var response = new RegisterResponseDto
@@ -39,6 +42,7 @@ namespace Server.Controllers
         [HttpDelete("delete/{playerId}")]
         public IActionResult DeletePlayer(int playerId)
         {
+            // 잘못된 플레이어 확인
             if (!PlayerData.RegisteredPlayers.ContainsKey(playerId))
             {
                 logger.LogWarning("삭제 요청: 등록되지 않은 PlayerId({PlayerId})", playerId);
@@ -48,6 +52,7 @@ namespace Server.Controllers
             PlayerData.RegisteredPlayers.TryRemove(playerId, out _);
             PlayerData.PlayerScores.TryRemove(playerId, out _);
 
+            // 플레이어 삭제
             logger.LogInformation("플레이어 삭제 Id: {PlayerId}", playerId);
 
             return Ok(new { message = $"PlayerId: {playerId}가 삭제되었습니다." });
