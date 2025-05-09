@@ -26,7 +26,7 @@ namespace Server.Controllers
 
             PlayerData.PlayerScores[req.PlayerId] = 0;
 
-            logger.LogInformation("신규 플레이어 등록: {PlayerId}, 이름: {PlayerName}", req.PlayerId, req.PlayerName);
+            logger.LogInformation("신규 플레이어 등록 ID: {PlayerId}, 이름: {PlayerName}", req.PlayerId, req.PlayerName);
 
             var response = new RegisterResponseDto
             {
