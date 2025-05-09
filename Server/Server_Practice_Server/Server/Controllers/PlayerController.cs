@@ -26,11 +26,11 @@ namespace Server.Controllers
 
             PlayerData.PlayerScores[req.PlayerId] = 0;
 
-            logger.LogInformation("신규 플레이어 등록 ID: {PlayerId}, 이름: {PlayerName}", req.PlayerId, req.PlayerName);
+            logger.LogInformation("신규 플레이어 등록, Id: {PlayerId}, 이름: {PlayerName}", req.PlayerId, req.PlayerName);
 
             var response = new RegisterResponseDto
             {
-                Message = $"환영합니다. {req.PlayerName}님! ID: {req.PlayerId}",
+                Message = $"환영합니다. {req.PlayerName}님! Id: {req.PlayerId}",
                 PlayerId = req.PlayerId
             };
             return Ok(response);
@@ -48,7 +48,7 @@ namespace Server.Controllers
             PlayerData.RegisteredPlayers.TryRemove(playerId, out _);
             PlayerData.PlayerScores.TryRemove(playerId, out _);
 
-            logger.LogInformation("플레이어 삭제: {PlayerId}", playerId);
+            logger.LogInformation("플레이어 삭제 Id: {PlayerId}", playerId);
 
             return Ok(new { message = $"PlayerId: {playerId}가 삭제되었습니다." });
         }
