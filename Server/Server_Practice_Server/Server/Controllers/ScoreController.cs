@@ -9,17 +9,17 @@ namespace Server.Controllers
     public class ScoreController : ControllerBase
     {
         // 점수 업데이트
-        [HttpPost("update")]
+        [HttpPost]
         public IActionResult UpdateScore([FromBody] PlayerRequest req)
         {
-            if (!PlayerData.RegisteredPlayers.ContainsKey(req.PlayerId))
+            if (!PlayerData.RegisteredPlayers.TryGetValue(req.PlayerId, out string? value))
                 return BadRequest(new { message = $"등록되지 않은 ID: {req.PlayerId}" });
             
             PlayerData.PlayerScores.AddOrUpdate(req.PlayerId, req.PlayerScore, (key, oldValue) => oldValue + req.PlayerScore);
 
             var response = new ScoreResponseDto
             {
-                Message = $"플레이어 {PlayerData.RegisteredPlayers[req.PlayerId]}의 현재 점수: {PlayerData.PlayerScores[req.PlayerId]}",
+                Message = $"플레이어 {value}의 현재 점수: {PlayerData.PlayerScores[req.PlayerId]}",
                 PlayerId = req.PlayerId,
                 PlayerScore = PlayerData.PlayerScores[req.PlayerId]
             };
