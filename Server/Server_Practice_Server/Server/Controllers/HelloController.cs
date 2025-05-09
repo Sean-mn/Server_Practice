@@ -23,18 +23,13 @@ namespace Server.Controllers
                 return BadRequest(new { message = "유효한 플레이어의 Id와 이름이 아닙니다." });
             }
 
-            if (PlayerData.RegisteredPlayers.ContainsKey(req.PlayerId))
+            var added = PlayerData.RegisteredPlayers.TryAdd(req.PlayerId, req.PlayerName);
+            if (!added)
             {
                 _logger.LogWarning("중복 PlayerId 감지: {PlayerId}, 이름: {PlayerName}", req.PlayerId, req.PlayerName);
                 return Conflict(new { message = $"PlayerId: {req.PlayerId}는 이미 등록되어 있습니다." });
             }
 
-            var added = PlayerData.RegisteredPlayers.TryAdd(req.PlayerId, req.PlayerName);
-            if (!added)
-            {
-                _logger.LogError("PlayerId 추가 실패: {PlayerId}", req.PlayerId);
-                return Conflict(new { message = $"PlayerId: {req.PlayerId}는 이미 등록되어있습니다." });
-            }
 
             PlayerData.PlayerScores[req.PlayerId] = 0;
 
