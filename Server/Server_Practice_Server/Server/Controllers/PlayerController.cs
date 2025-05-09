@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using Server.DTO;
 using Server.Models;
 
 namespace Server.Controllers
@@ -33,7 +34,13 @@ namespace Server.Controllers
             PlayerData.PlayerScores[req.PlayerId] = 0;
 
             _logger.LogInformation("신규 플레이어 등록: {PlayerId}, 이름: {PlayerName}", req.PlayerId, req.PlayerName);
-            return Ok(new { message = $"환영합니다. {req.PlayerName}님! ID: {req.PlayerId}" });
+
+            var response = new RegisterResponseDto
+            {
+                Message = $"환영합니다. {req.PlayerName}님! ID: {req.PlayerId}",
+                PlayerId = req.PlayerId
+            };
+            return Ok(response);
         }
     }
 }

@@ -1,6 +1,6 @@
 ﻿namespace Server.DTO;
 
-public class ScoreResponseDTO
+public class ScoreResponseDto
 {
     public string? Message { get; set; }
     public int PlayerId { get; set; }

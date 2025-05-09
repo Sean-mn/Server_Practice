@@ -17,7 +17,7 @@ namespace Server.Controllers
             
             PlayerData.PlayerScores.AddOrUpdate(req.PlayerId, req.PlayerScore, (key, oldValue) => oldValue + req.PlayerScore);
 
-            var response = new ScoreResponseDTO
+            var response = new ScoreResponseDto
             {
                 Message = $"플레이어 {PlayerData.RegisteredPlayers[req.PlayerId]}의 현재 점수: {PlayerData.PlayerScores[req.PlayerId]}",
                 PlayerId = req.PlayerId,
