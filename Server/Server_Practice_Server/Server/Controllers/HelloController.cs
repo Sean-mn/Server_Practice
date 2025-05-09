@@ -30,7 +30,6 @@ namespace Server.Controllers
                 return Conflict(new { message = $"PlayerId: {req.PlayerId}는 이미 등록되어 있습니다." });
             }
 
-
             PlayerData.PlayerScores[req.PlayerId] = 0;
 
             _logger.LogInformation("신규 플레이어 등록: {PlayerId}, 이름: {PlayerName}", req.PlayerId, req.PlayerName);
