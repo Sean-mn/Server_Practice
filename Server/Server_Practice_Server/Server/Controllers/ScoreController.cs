@@ -1,5 +1,5 @@
-using System.Collections.Concurrent;
 using Microsoft.AspNetCore.Mvc;
+using Server.DTO;
 using Server.Models;
 
 namespace Server.Controllers
@@ -17,12 +17,14 @@ namespace Server.Controllers
             
             PlayerData.PlayerScores.AddOrUpdate(req.PlayerId, req.PlayerScore, (key, oldValue) => oldValue + req.PlayerScore);
 
-            return Ok(new
+            var response = new ScoreResponseDTO
             {
-                message = $"플레이어 {PlayerData.RegisteredPlayers[req.PlayerId]}의 현재 점수: {PlayerData.PlayerScores[req.PlayerId]}",
-                playerId = req.PlayerId,
-                playerScore = PlayerData.PlayerScores[req.PlayerId]
-            });
+                Message = $"플레이어 {PlayerData.RegisteredPlayers[req.PlayerId]}의 현재 점수: {PlayerData.PlayerScores[req.PlayerId]}",
+                PlayerId = req.PlayerId,
+                PlayerScore = PlayerData.PlayerScores[req.PlayerId]
+            };
+            
+            return Ok(response);
         }
     }
 }

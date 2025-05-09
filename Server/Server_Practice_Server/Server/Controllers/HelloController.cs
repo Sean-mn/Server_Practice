@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using Server.DTO;
 using Server.Models;
 
 namespace Server.Controllers
@@ -18,8 +19,14 @@ namespace Server.Controllers
                 return Conflict(new { message = $"PlayerId: {req.PlayerId}는 이미 등록되어있습니다." });
 
             PlayerData.PlayerScores[req.PlayerId] = 0;
+
+            var response = new WelcomeResponseDTO
+            {
+                Message = $"환영합니다. {req.PlayerName}님! ID: {req.PlayerId}",
+                PlayerId = req.PlayerId
+            };
             
-            return Ok(new {message = $"환영합니다. {req.PlayerName}님! ID: {req.PlayerId}" });
+            return Ok(response);
         }
     }
 }
