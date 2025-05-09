@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.Networking;
 using System.Text;
 using System;
@@ -15,6 +15,7 @@ namespace Managers.Network
         {
             if (!string.IsNullOrEmpty(api))
                 _serverUrl += api;
+
             _isInitalized = true;
         }
 
@@ -23,7 +24,7 @@ namespace Managers.Network
             if (_isInitalized)
             {
                 string json = JsonUtility.ToJson(data);
-                Debug.Log($"���� JSON: {json}");
+                Debug.Log($"보낼 JSON: {json}");
 
                 byte[] body = Encoding.UTF8.GetBytes(json);
                 UnityWebRequest req = new UnityWebRequest(_serverUrl, "POST");
@@ -40,7 +41,7 @@ namespace Managers.Network
                 }
                 else
                 {
-                    onFailed?.Invoke($"Request Failed. Status Code: {req.responseCode}, Error: {req.error}");
+                    onFailed?.Invoke($"요청 실패. 오류 코드: {req.responseCode}, 오류: {req.error}");
                 }
             }
         }
@@ -61,12 +62,12 @@ namespace Managers.Network
                 }
                 catch (Exception ex)
                 {
-                    onFailed?.Invoke($"���� �߻�: {ex.Message}");
+                    onFailed?.Invoke($"예외 발생: {ex.Message}");
                 }
             }
             else
             {
-                onFailed?.Invoke($"Request Failed. Status Code: {req.responseCode}, Error: {req.error}");
+                onFailed?.Invoke($"요청 실패. 오류 코드: {req.responseCode}, 오류: {req.error}");
             }
         }
     }
