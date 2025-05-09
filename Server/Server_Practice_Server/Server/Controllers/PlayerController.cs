@@ -36,7 +36,7 @@ namespace Server.Controllers
             return Ok(response);
         }
 
-        [HttpDelete("{playerId}")]
+        [HttpDelete("delete/{playerId}")]
         public IActionResult DeletePlayer(int playerId)
         {
             if (!PlayerData.RegisteredPlayers.ContainsKey(playerId))
