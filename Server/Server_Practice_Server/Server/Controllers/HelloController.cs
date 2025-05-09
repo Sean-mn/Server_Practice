@@ -15,7 +15,7 @@ namespace Server.Controllers
         }
         
         [HttpPost]
-        public IActionResult Welcome([FromBody] PlayerRequest req)
+        public IActionResult RegisterPlayer([FromBody] PlayerRequest req)
         {
             if (req.PlayerId <= 0 || string.IsNullOrEmpty(req.PlayerName))
             {
