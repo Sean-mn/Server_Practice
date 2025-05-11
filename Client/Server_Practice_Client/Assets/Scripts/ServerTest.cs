@@ -1,10 +1,16 @@
 ﻿using UnityEngine;
 using System.Collections;
 using Managers.Network;
+using UnityEngine.Networking;
 
 public class ServerTest : MonoBehaviour
 {
     private PlayerRequest _request;
+
+    private void Start()
+    {
+        StartCoroutine(GetPlayerData(1));
+    }
 
     private void Update()
     {
@@ -18,6 +24,23 @@ public class ServerTest : MonoBehaviour
         {
             _request.playerScore += 10;
             StartCoroutine(SendPlayerScore(_request.playerScore));
+        }
+    }
+
+    private IEnumerator GetPlayerData(int id)
+    {
+        string url = $"http://localhost:5015/api/player/{id}";
+        UnityWebRequest req = UnityWebRequest.Get(url);
+
+        yield return req.SendWebRequest();
+
+        if (req.result == UnityWebRequest.Result.Success)
+        {
+            Debug.Log("플레이어 정보: " + req.downloadHandler.text);
+        }
+        else
+        {
+            Debug.LogError("에러: " + req.error);
         }
     }
 

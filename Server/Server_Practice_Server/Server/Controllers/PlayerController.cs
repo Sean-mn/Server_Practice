@@ -57,5 +57,18 @@ namespace Server.Controllers
 
             return Ok(new { message = $"PlayerId: {playerId}가 삭제되었습니다." });
         }
+
+        [HttpGet("{id}")]
+        public IActionResult GetPlayer(int id)
+        {
+            var player = new Player
+            {
+                Id = id,
+                Nickname = "Sean",
+                Level = 10
+            };
+            
+            return Ok(player);
+        }
     }
 }
