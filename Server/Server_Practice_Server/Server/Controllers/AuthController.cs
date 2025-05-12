@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using Server.interfaces;
 
 namespace Server.Controllers
 {
@@ -6,6 +7,7 @@ namespace Server.Controllers
     [ApiController]
     public class AuthController : ControllerBase
     {
-        
+        private readonly IConfiguration _configuration;
+        private readonly IUserService _userService;
     }
 }
